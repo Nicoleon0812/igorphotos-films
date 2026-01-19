@@ -3,6 +3,8 @@ import { FaInstagram, FaWhatsapp, FaEnvelope } from 'react-icons/fa'
 import { supabase } from './supabase'
 import './App.css'
 
+import fotoPerfilLocal from './photosandfilms.jpg'
+
 function App() {
   // Ahora el estado guardará "grupos" de categorías, no fotos sueltas
   // Estructura: [{ category: "Bodas", photos: [...] }, { category: "Urbano", photos: [...] }]
@@ -81,7 +83,7 @@ function App() {
       {/* HEADER */}
       <header className="perfil">
         {/* Tip: ¡Cambia este src por la foto real de Ely en Supabase! */}
-        <img src="D:\nleon\Desktop\ruta_fullstack\portafolio-ely\src\photosandfilms.jpg" alt="Ely" className="foto-perfil" />
+        <img src={fotoPerfilLocal} alt="Ely" className="foto-perfil" />
         <h1>Igor Photos & Films</h1>
         <p className="subtitulo">Capturando la esencia de cada momento</p>
         <div className="redes-sociales">
