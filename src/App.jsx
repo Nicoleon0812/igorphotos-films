@@ -22,8 +22,7 @@ function App() {
       setCargando(true);
       const nuevosGrupos = [];
 
-      // 1. Preguntamos a Supabase qué carpetas hay en la raíz
-      // Ahora que arreglaste el RLS, esto SÍ funcionará.
+      // 1. Preguntamos a Supabase qué carpetas hay
       const { data: listaRaiz, error: errorRaiz } = await supabase
         .storage
         .from('portafolio')
@@ -31,13 +30,13 @@ function App() {
 
       if (errorRaiz) throw errorRaiz;
 
-      // 2. Recorremos lo que encontró (sea lo que sea)
+      // 2. Recorremos carpeta por carpeta
       for (const item of listaRaiz) {
         
-        // Ignoramos archivos sueltos o de sistema
+        // Ignoramos archivos de sistema
         if (item.name.startsWith('.')) continue;
 
-        // Entramos a investigar dentro de la carpeta
+        // Entramos a la carpeta
         const { data: fotosCarpeta, error: errorCarpeta } = await supabase
           .storage
           .from('portafolio')
@@ -45,23 +44,31 @@ function App() {
 
         if (errorCarpeta) continue;
 
-        // Filtramos solo imágenes reales
         const fotosValidas = fotosCarpeta.filter(f => f.name !== '.emptyFolderPlaceholder');
 
         if (fotosValidas.length > 0) {
-          // Preparamos las fotos de esta categoría
+          
+          // 3. AQUÍ APLICAMOS LA MAGIA DE VELOCIDAD ⚡️
           const fotosProcesadas = fotosValidas.map(archivo => {
             const ruta = `${item.name}/${archivo.name}`;
             const { data } = supabase.storage.from('portafolio').getPublicUrl(ruta);
             
+            // Transformación de imagen (Resize)
+            let urlOptimizada = data.publicUrl;
+            if (urlOptimizada.includes('/object/public/')) {
+               // Cambiamos al renderizador de imágenes de Supabase
+               urlOptimizada = urlOptimizada.replace('/object/public/', '/render/image/public/');
+               // Le pedimos: ancho máx 800px y calidad 80%
+               urlOptimizada += '?width=800&quality=80&resize=contain';
+            }
+
             return {
               id: archivo.id || archivo.name,
-              url: data.publicUrl,
+              url: urlOptimizada,
               nombreLimpio: archivo.name.split('.')[0]
             };
           });
 
-          // Agregamos el grupo detectado
           nuevosGrupos.push({
             category: item.name.charAt(0).toUpperCase() + item.name.slice(1),
             photos: fotosProcesadas
@@ -114,7 +121,12 @@ function App() {
             <div className="galeria">
               {grupo.photos.map((foto) => (
                 <div key={foto.id} className="item-galeria">
-                  <img src={foto.url} alt={foto.nombreLimpio} loading="lazy" />
+                  <img 
+                    src={foto.url} 
+                    alt={foto.nombreLimpio} 
+                    className="foto-item"   // <--- AQUÍ ESTÁ EL CAMBIO
+                    loading="lazy" 
+                  />
                   <div className="overlay">
                     <span>{foto.nombreLimpio}</span> 
                   </div>
