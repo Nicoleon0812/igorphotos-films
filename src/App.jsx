@@ -118,8 +118,8 @@ function App() {
                   640: { slidesPerView: 2.2, spaceBetween: 20 },
                   1024: { slidesPerView: 3, spaceBetween: 30 },
                   1300: { slidesPerView: 4, spaceBetween: 30 },
-                  1600: { slidesPerView: 5, spaceBetween: 30 },
-                  1900: { slidesPerView: 4, spaceBetween: 40 }
+                  1600: { slidesPerView: 6, spaceBetween: 30 },
+                  1900: { slidesPerView: 6, spaceBetween: 40 }
                 }}
                 className="mi-carrusel"
               >
