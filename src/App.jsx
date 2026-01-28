@@ -81,7 +81,7 @@ function App() {
   }
 
   if (cargando) {
-    return <div style={{color: '#800020', textAlign: 'center', fontSize:'6rem', display:'flex', justifyContent:'center', alignItems:'center', height: '100vh', width:'100%', backgroundColor: '#FFFCF7'}}>Cargando portafolio...</div>
+    return <div style={{color: '#800020', textAlign: 'center', fontSize:'2.5rem', display:'flex', justifyContent:'center', alignItems:'center', height: '100vh', width:'100%', backgroundColor: '#FFFCF7'}}>Cargando portafolio...</div>
   }
 
   return (
