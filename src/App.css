@@ -1,118 +1,197 @@
-/* src/App.css */
+/* --- VARIABLES DE COLOR (Paleta Burdeo & Dorado) --- */
+:root {
+  --color-principal: #800020;   /* Burdeo / Vino tinto */
+  --color-secundario: #D4AF37;  /* Dorado elegante */
+  --color-fondo: #FFFCF7;       /* Crema muy suave */
+  --color-texto: #333333;       /* Gris oscuro */
+  --sombra-suave: 0 10px 30px -10px rgba(128, 0, 32, 0.15);
+}
+
+/* Configuración general */
 body {
   margin: 0;
-  background-color: #0a0a0a; /* Fondo Negro */
-  color: #f0f0f0;            /* <--- ¡ESTO ES CRUCIAL! (Texto Blanco) */
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
 }
 
-.contenedor-principal {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
+/* Contenedor principal */
+/* Contenedor principal */
+.App {
+  width: 100%;           /* Intenta ocupar todo el ancho posible... */
+  max-width: 98%;     /* ...pero ¡Frena en 1400px! (El punto dulce) */
+  margin: 0 auto;        /* Centra el contenedor en pantallas gigantes */
+  padding: 0 20px;       /* Un poco de aire a los lados en celulares */
+  box-sizing: border-box; /* Evita que el padding rompa el ancho */
 }
 
-/* Header Minimalista */
-.perfil {
+/* --- HERO BANNER (Portada) --- */
+.hero-banner {
   text-align: center;
-  margin-bottom: 80px; /* Más aire */
+  padding: 60px 20px;
+  margin-bottom: 40px;
+  background: linear-gradient(to bottom, #ffffff 0%, #FFF8E1 100%);
+  border-bottom: 3px solid var(--color-principal);
 }
 
-.foto-perfil {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #333; /* Borde sutil */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+.hero-logo-img {
+  max-width: 850px;
+  width: 90%;
+  height: auto;
+  margin-bottom: 30px;
+  filter: drop-shadow(0 5px 15px rgba(234, 210, 156, 0.4));
 }
 
-.perfil h1 {
-  font-weight: 300; /* Tipografía más fina y elegante */
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-
-.subtitulo {
-  color: #888;
+.eslogan {
+  font-size: 3rem;
+  color: var(--color-principal);
   font-weight: 300;
-  margin-top: 0;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
 }
 
 .redes-sociales {
-  display: flex; justify-content: center; gap: 25px; margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  font-size: 6rem;
 }
 
-.btn-social {
-  font-size: 1.6rem; color: #888; transition: all 0.3s;
+.icono-social {
+  color: var(--color-principal);
+  transition: all 0.3s ease;
 }
 
-.btn-social:hover {
-  color: white; transform: translateY(-3px);
+.icono-social:hover {
+  color: var(--color-secundario);
+  transform: translateY(-3px);
 }
 
-/* --- Estilos de los "Banners" de Categoría --- */
+/* Títulos de Categoría */
+h2 {
+  text-align: center;
+  color: var(--color-principal);
+  font-weight: 400;
+  font-size: 4rem;
+  margin: 80px 0 50px 0;
+  position: relative;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
 
+h2::after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background-color: var(--color-secundario);
+  margin: 20px auto 0;
+}
+
+/* --- CARRUSEL (Swiper) --- */
 .seccion-categoria {
-  margin-bottom: 80px; /* Espacio grande entre cada sección */
+  margin-bottom: 60px;
 }
 
-.titulo-categoria {
-  font-size: 1.8rem;
-  font-weight: 300;
-  letter-spacing: 1.5px;
-  border-bottom: 1px solid #333; /* Una línea sutil debajo del título */
-  padding-bottom: 15px;
-  margin-bottom: 30px;
-  color: #d4af37; /* Un toque dorado elegante (opcional) o usa white */
+.foto-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--sombra-suave);
+  height: 1200px;
+  position: relative;
+  border: 1px solid rgba(212, 175, 55, 0.3); /* Borde dorado sutil */
 }
 
-/* La grilla (se mantiene igual, funciona bien dentro de las secciones) */
-.galeria {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Fotos un poco más grandes */
-  gap: 20px;
+.foto-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+  object-position: center !important;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+  border-radius: 0;
+  display: block;
 }
 
-.item-galeria {
-  position: relative; overflow: hidden; border-radius: 4px; cursor: pointer; aspect-ratio: 3/4; /* Forza formato vertical elegante */
+.foto-card:hover .foto-img {
+  transform: scale(1.03);
 }
 
-.item-galeria img {
-  width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease;
+/* --- FLECHAS DEL CARRUSEL --- */
+.swiper-button-next,
+.swiper-button-prev {
+  color: var(--color-secundario) !important;
+  font-weight: bold;
+  z-index: 50 !important;
+  width: 100px !important;
+  height: 100px !important;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.item-galeria:hover img { transform: scale(1.08); }
-
-.overlay {
-  position: absolute; bottom: 0; left: 0; width: 100%; padding: 15px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-  opacity: 0; transition: opacity 0.3s; text-align: center;
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 1.2rem !important;
 }
 
-.item-galeria:hover .overlay { opacity: 1; }
-
-/* En App.css */
-img {
-  animation: aparecerSuave 0.5s ease-in-out;
+/* Footer */
+footer {
+  text-align: center;
+  padding: 40px;
+  color: var(--color-principal);
+  font-size: 3.5rem;
+  border-top: 1px solid var(--color-secundario);
+  margin-top: 50px;
 }
 
-@keyframes aparecerSuave {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* --- ESTILOS DEL LIGHTBOX (VISOR DE FOTOS) --- */
+
+/* Hacemos que el cursor sea una manito para indicar clic */
+
+
+/* El fondo negro semitransparente */
+.lightbox-overlay {
+  position: fixed; /* Se queda fijo en la pantalla */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9); /* Negro al 90% */
+  z-index: 10000; /* ¡Encima de todo! */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: aparecerSuave 0.3s ease; /* Efecto fade-in */
 }
 
-/* Efecto de aparición suave para las imágenes */
-.foto-item {
-  animation: entradaSuave 0.6s ease-out;
+/* La imagen grande centrada */
+.lightbox-imagen {
+  width: auto;
+  height: auto;
+  max-width: 95vw;  /* No más ancha que el 90% de la pantalla */
+  max-height: 95vh; 
+  min-height: 60vh;/* No más alta que el 90% de la altura */
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  border: 2px solid var(--color-secundario); /* Borde dorado elegante */
 }
 
-@keyframes entradaSuave {
-  from {
-    opacity: 0;
-    transform: translateY(20px); /* Entra subiendo un poquito */
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* El botón X para cerrar */
+.btn-cerrar {
+  position: absolute;
+  top: 40px;
+  right: 60px;
+  font-size: 9rem;
+  color: #fff;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.btn-cerrar:hover {
+  color: var(--color-secundario); /* Se pone dorado al pasar el mouse */
 }
